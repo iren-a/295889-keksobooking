@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Ирина Аринушкина](https://up.htmlacademy.ru/javascript/10/user/295889).
-* Наставник: `Неизвестно`.
+* Наставник: [Борис Стрельников](https://htmlacademy.ru/profile/id278461).
 
 ---
 
