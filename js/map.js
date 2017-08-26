@@ -15,25 +15,25 @@ var HOUSING_TYPES = [
   'flat',
   'house',
   'bungalo'
-]
+];
 
 var HOUSING_TYPES_MAP = {
   'flat': 'Квартира',
   'house': 'Дом',
   'bungalo': 'Бунгало'
-}
+};
 
 var CHECKIN_TIMES = [
   '12:00',
   '13:00',
   '14:00'
-]
+];
 
 var CHECKOUT_TIMES = [
   '12:00',
   '13:00',
   '14:00'
-]
+];
 
 var FEATURES = [
   'wifi',
@@ -42,7 +42,7 @@ var FEATURES = [
   'washer',
   'elevator',
   'conditioner'
-]
+];
 
 
 function getRandomInteger(min, max) {
@@ -79,7 +79,7 @@ function getNoticesArr() {
         x: locationX,
         y: locationY
       }
-    }
+    };
   }
   return noticesArr;
 }
@@ -90,13 +90,12 @@ var tokyoPinMap = document.querySelector('.tokyo__pin-map');
 var fragment = document.createDocumentFragment();
 
 for (var i = 0; i < notices.length; i++) {
-  var notice = notices[i];
   var div = document.createElement('div');
   div.classList.add('pin');
-  div.style.left = notice.location.x + 'px';
-  div.style.top = notice.location.y + 'px';
+  div.style.left = notices[i].location.x + 'px';
+  div.style.top = notices[i].location.y + 'px';
   var img = document.createElement('img');
-  img.src = notice.author.avatar;
+  img.src = notices[i].author.avatar;
   img.classList.add('rounded');
   img.width = 40;
   img.height = 40;
@@ -119,8 +118,8 @@ function renderOffer(notice) {
   offerElement.querySelector('.lodge__rooms-and-guests').textContent = 'Для ' + notice.offer.guests + ' гостей в ' + notice.offer.rooms + ' комнатах';
   offerElement.querySelector('.lodge__checkin-time').textContent = 'Заезд после ' + notice.offer.checkin + ', выезд до ' + notice.offer.checkout;
   var featuresHtml = '';
-  for (var i = 0; i < notice.offer.features.length; i++) {
-    featuresHtml += '<span class="feature__image  feature__image--' + notice.offer.features[i] + '"></span>';
+  for (var j = 0; j < notice.offer.features.length; j++) {
+    featuresHtml += '<span class="feature__image  feature__image--' + notice.offer.features[j] + '"></span>';
   }
   offerElement.querySelector('.lodge__features').innerHTML = featuresHtml;
   offerElement.querySelector('.lodge__description').textContent = notice.offer.description;
@@ -132,6 +131,6 @@ var offerDialog = document.querySelector('#offer-dialog');
 var oldDialogPanel = document.querySelector('.dialog__panel');
 
 offerDialog.replaceChild(renderOffer(notices[0]), oldDialogPanel);
-document.querySelector('.dialog__title img').src = notice.author.avatar;
+document.querySelector('.dialog__title img').src = notices[0].author.avatar;
 
 
