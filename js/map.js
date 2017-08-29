@@ -44,6 +44,9 @@ var FEATURES = [
   'conditioner'
 ];
 
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
+
 
 function getRandomInteger(min, max) {
   return Math.floor(min + Math.random() * (max + 1 - min));
@@ -84,26 +87,28 @@ function getOffersArr() {
   return offersArr;
 }
 
-var offers = getOffersArr();
 
-var tokyoPinMap = document.querySelector('.tokyo__pin-map');
-var fragment = document.createDocumentFragment();
+function renderPinMap(offersArr) {
+  var tokyoPinMap = document.querySelector('.tokyo__pin-map');
+  var fragment = document.createDocumentFragment();
 
-for (var i = 0; i < offers.length; i++) {
-  var div = document.createElement('div');
-  div.classList.add('pin');
-  div.style.left = offers[i].location.x + 'px';
-  div.style.top = offers[i].location.y + 'px';
-  var img = document.createElement('img');
-  img.src = offers[i].author.avatar;
-  img.classList.add('rounded');
-  img.width = 40;
-  img.height = 40;
-  div.appendChild(img);
+  for (var i = 0; i < offersArr.length; i++) {
+    var div = document.createElement('div');
+    div.classList.add('pin');
+    div.style.left = offersArr[i].location.x + 'px';
+    div.style.top = offersArr[i].location.y + 'px';
+    var img = document.createElement('img');
+    img.src = offersArr[i].author.avatar;
+    img.classList.add('rounded');
+    img.width = 40;
+    img.height = 40;
+    img.setAttribute('tabindex', '1');
+    div.appendChild(img);
 
-  fragment.appendChild(div);
+    fragment.appendChild(div);
+  }
+  tokyoPinMap.appendChild(fragment);
 }
-tokyoPinMap.appendChild(fragment);
 
 
 function replaceDialogPanel(newDialogPanel) {
@@ -113,7 +118,7 @@ function replaceDialogPanel(newDialogPanel) {
   offerDialog.replaceChild(newDialogPanel, oldDialogPanel);
 }
 
-function renderOffer(offerObj) {
+function renderOfferDialog(offerObj) {
   var lodgeTemplate = document.querySelector('#lodge-template').content;
   var offerElement = lodgeTemplate.cloneNode(true);
 
@@ -135,6 +140,53 @@ function renderOffer(offerObj) {
   document.querySelector('.dialog__title img').src = offerObj.author.avatar;
 }
 
-renderOffer(offers[0]);
+var offers = getOffersArr();
+renderPinMap(offers);
+renderOfferDialog(offers[0]);
 
+var Pins = document.querySelectorAll('.pin:not(.pin__main)');
+var dialogClose = document.querySelector('.dialog__close');
+var dialog = document.querySelector('.dialog');
 
+function openDialog(idx) {
+  for (var i = 0; i < Pins.length; i++) {
+    Pins[i].classList.remove('pin--active');
+  }
+  Pins[idx].classList.add('pin--active');
+
+  dialog.classList.remove('hidden');
+  renderOfferDialog(offers[idx]);
+}
+
+function closeDialog() {
+  dialog.classList.add('hidden');
+  for (var j = 0; j < Pins.length; j++) {
+    Pins[j].classList.remove('pin--active');
+  }
+}
+
+function dialogEscPressHandler(evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    closeDialog();
+  }
+}
+
+for (var i = 0; i < Pins.length; i++) {
+  (function (idx) {
+    Pins[idx].addEventListener('click', function () {
+      openDialog(idx);
+      document.addEventListener('keydown', dialogEscPressHandler);
+    });
+
+    Pins[idx].addEventListener('keydown', function (evt) {
+      if (evt.keyCode === ENTER_KEYCODE) {
+        openDialog(idx);
+        document.addEventListener('keydown', dialogEscPressHandler);
+      }
+    });
+  })(i);
+}
+
+dialogClose.addEventListener('click', function () {
+  closeDialog();
+});
