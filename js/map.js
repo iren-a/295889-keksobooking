@@ -44,6 +44,7 @@ var FEATURES = [
   'conditioner'
 ];
 
+
 var ESC_KEYCODE = 27;
 var ENTER_KEYCODE = 13;
 
@@ -177,12 +178,6 @@ function pinEnterPressHandler(i, evt) {
   }
 }
 
-function dialogEscPressHandler(evt) {
-  if (evt.keyCode === ESC_KEYCODE) {
-    closeDialog();
-  }
-}
-
 for (var i = 0; i < Pins.length; i++) {
   Pins[i].addEventListener('click', pinClickHandler.bind(null, i));
   Pins[i].addEventListener('keydown', pinEnterPressHandler.bind(null, i));
@@ -190,4 +185,91 @@ for (var i = 0; i < Pins.length; i++) {
 
 dialogClose.addEventListener('click', function () {
   closeDialog();
+  document.removeEventListener('keydown', dialogEscPressHandler);
 });
+
+function dialogEscPressHandler(evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    closeDialog();
+    document.removeEventListener('keydown', dialogEscPressHandler);
+  }
+}
+
+
+var noticeForm = document.querySelector('.notice__form');
+var titleInput = noticeForm.querySelector('input[name="title"]');
+var priceInput = noticeForm.querySelector('input[name="price"]');
+var addressInput = noticeForm.querySelector('input[name="address"]');
+var timeinSelect = noticeForm.querySelector('select[name="timein"]');
+var timeoutSelect = noticeForm.querySelector('select[name="timeout"]');
+var roomNumberSelect = noticeForm.querySelector('select[name="rooms"]');
+var capacitySelect = noticeForm.querySelector('select[name="capacity"]');
+var typeSelect = noticeForm.querySelector('select[name="type"]');
+
+var TITLE_MIN_LENGTH = 30;
+var TITLE_MAX_LENGTH = 100;
+
+var PRICE_MIN_VALUE = 0;
+var PRICE_MAX_VALUE = 1000000;
+
+var ROOMS_CAPACITY_MAP = {
+  '1': ['1'],
+  '2': ['1', '2'],
+  '3': ['1', '2', '3'],
+  '100': ['0']
+};
+
+var HOUSING_TYPES_PRICE_MAP = {
+  'bungalo': 0,
+  'flat': 1000,
+  'house': 5000,
+  'palace': 10000
+};
+
+titleInput.required = true;
+priceInput.required = true;
+addressInput.required = true;
+
+noticeForm.addEventListener('change', function (evt) {
+  var target = evt.target;
+  if (target === titleInput) {
+    if (target.value.length < TITLE_MIN_LENGTH) {
+      target.setCustomValidity('Минимальная длина — ' + TITLE_MIN_LENGTH + ' символов');
+    } else if (target.value.length > PRICE_MAX_VALUE) {
+      target.setCustomValidity('Макcимальная длина — ' + TITLE_MAX_LENGTH + ' символов');
+    } else {
+      target.setCustomValidity('');
+    }
+  }
+  if (target === priceInput) {
+    if (target.value < PRICE_MIN_VALUE) {
+      target.setCustomValidity('Минимальное значение — ' + PRICE_MIN_VALUE);
+    } else if (target.value > PRICE_MAX_VALUE) {
+      target.setCustomValidity('Максимальное значение — ' + PRICE_MAX_VALUE);
+    } else {
+      target.setCustomValidity('');
+    }
+  }
+  if (target === timeinSelect) {
+    timeoutSelect.value = target.value;
+  }
+  if (target === timeoutSelect) {
+    timeinSelect.value = evt.target.value;
+  }
+  if (target === typeSelect) {
+    priceInput.value = HOUSING_TYPES_PRICE_MAP[evt.target.value];
+  }
+  if (target === roomNumberSelect) {
+    var capacityEnabledArr = ROOMS_CAPACITY_MAP[evt.target.value];
+    capacitySelect.value = capacityEnabledArr[0];
+    for (var j = 0; j < capacitySelect.options.length; j++) {
+      var option = capacitySelect.options[j];
+      if (capacityEnabledArr.indexOf(option.value) === -1) {
+        option.disabled = true;
+      } else {
+        option.disabled = false;
+      }
+    }
+  }
+});
+
