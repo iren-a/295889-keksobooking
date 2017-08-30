@@ -165,6 +165,18 @@ function closeDialog() {
   }
 }
 
+function pinClickHandler(i) {
+  openDialog(i);
+  document.addEventListener('keydown', dialogEscPressHandler);
+}
+
+function pinEnterPressHandler(i, evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    openDialog(i);
+    document.addEventListener('keydown', dialogEscPressHandler);
+  }
+}
+
 function dialogEscPressHandler(evt) {
   if (evt.keyCode === ESC_KEYCODE) {
     closeDialog();
@@ -172,19 +184,8 @@ function dialogEscPressHandler(evt) {
 }
 
 for (var i = 0; i < Pins.length; i++) {
-  (function (idx) {
-    Pins[idx].addEventListener('click', function () {
-      openDialog(idx);
-      document.addEventListener('keydown', dialogEscPressHandler);
-    });
-
-    Pins[idx].addEventListener('keydown', function (evt) {
-      if (evt.keyCode === ENTER_KEYCODE) {
-        openDialog(idx);
-        document.addEventListener('keydown', dialogEscPressHandler);
-      }
-    });
-  })(i);
+  Pins[i].addEventListener('click', pinClickHandler.bind(null, i));
+  Pins[i].addEventListener('keydown', pinEnterPressHandler.bind(null, i));
 }
 
 dialogClose.addEventListener('click', function () {
