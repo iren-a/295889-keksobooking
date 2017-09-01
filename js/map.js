@@ -202,6 +202,7 @@ var timeoutSelect = document.getElementById('timeout');
 var roomNumberSelect = document.getElementById('room_number');
 var capacitySelect = document.getElementById('capacity');
 var typeSelect = document.getElementById('type');
+var formSubmit = document.querySelector('.form__submit');
 
 var TITLE_MIN_LENGTH = 30;
 var TITLE_MAX_LENGTH = 100;
@@ -270,6 +271,18 @@ roomNumberSelect.addEventListener('change', function (evt) {
       option.disabled = true;
     } else {
       option.disabled = false;
+    }
+  }
+});
+
+formSubmit.addEventListener('click', function () {
+  var inputs = document.querySelectorAll('.notice__form input');
+
+  for (var j = 0; j < inputs.length; j++) {
+    if (!inputs[j].validity.valid) {
+      inputs[j].style = 'border: 2px solid red;';
+    } else {
+      inputs[j].style = '';
     }
   }
 });
