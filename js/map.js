@@ -197,12 +197,13 @@ function dialogEscPressHandler(evt) {
 
 var titleInput = document.getElementById('title');
 var priceInput = document.getElementById('price');
+var address = document.getElementById('address');
 var timeinSelect = document.getElementById('timein');
 var timeoutSelect = document.getElementById('timeout');
 var roomNumberSelect = document.getElementById('room_number');
 var capacitySelect = document.getElementById('capacity');
 var typeSelect = document.getElementById('type');
-var formSubmit = document.querySelector('.form__submit');
+var noticeForm = document.querySelector('.notice__form');
 
 var TITLE_MIN_LENGTH = 30;
 var TITLE_MAX_LENGTH = 100;
@@ -223,28 +224,6 @@ var HOUSING_TYPES_PRICE_MAP = {
   'house': 5000,
   'palace': 10000
 };
-
-titleInput.addEventListener('change', function (evt) {
-  var target = evt.target;
-  if (target.value.length < TITLE_MIN_LENGTH) {
-    target.setCustomValidity('Минимальная длина — ' + TITLE_MIN_LENGTH + ' символов');
-  } else if (target.value.length > PRICE_MAX_VALUE) {
-    target.setCustomValidity('Макcимальная длина — ' + TITLE_MAX_LENGTH + ' символов');
-  } else {
-    target.setCustomValidity('');
-  }
-});
-
-priceInput.addEventListener('change', function (evt) {
-  var target = evt.target;
-  if (target.value < PRICE_MIN_VALUE) {
-    target.setCustomValidity('Минимальное значение — ' + PRICE_MIN_VALUE);
-  } else if (target.value > PRICE_MAX_VALUE) {
-    target.setCustomValidity('Максимальное значение — ' + PRICE_MAX_VALUE);
-  } else {
-    target.setCustomValidity('');
-  }
-});
 
 timeinSelect.addEventListener('change', function (evt) {
   var target = evt.target;
@@ -275,14 +254,45 @@ roomNumberSelect.addEventListener('change', function (evt) {
   }
 });
 
-formSubmit.addEventListener('click', function () {
+function checkValidityInput(input) {
+  if (input === titleInput) {
+    if (titleInput.value === '' ||
+      titleInput.value.length < TITLE_MIN_LENGTH ||
+      titleInput.value.length > TITLE_MAX_LENGTH) {
+      return false;
+    }
+  }
+  if (input === priceInput) {
+    if (priceInput.value === '' ||
+      priceInput.value.length < PRICE_MIN_VALUE ||
+      priceInput.value.length > PRICE_MAX_VALUE) {
+      return false;
+    }
+  }
+  if (input === address) {
+    if (address.value === '') {
+      return false;
+    }
+  }
+  return true;
+}
+
+noticeForm.addEventListener('submit', function (evt) {
+
   var inputs = document.querySelectorAll('.notice__form input');
+  var stopSubmit = false;
 
   for (var j = 0; j < inputs.length; j++) {
-    if (!inputs[j].validity.valid) {
+    if (!checkValidityInput(inputs[j])) {
       inputs[j].style = 'border: 2px solid red;';
+      stopSubmit = true;
     } else {
       inputs[j].style = '';
     }
   }
+  if (stopSubmit) {
+    evt.preventDefault();
+  }
+
 });
+
