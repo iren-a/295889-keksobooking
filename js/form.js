@@ -11,13 +11,19 @@
   var typeSelect = document.getElementById('type');
   var noticeForm = document.querySelector('.notice__form');
 
+  var CHECK_TIMES = [
+    '12:00',
+    '13:00',
+    '14:00'
+  ];
+
 
   var syncValues = function (field, value) {
     field.value = value;
   };
 
-  window.synchronizeFields(timeinSelect, timeoutSelect, ['12:00', '13:00', '14:00'], ['12:00', '13:00', '14:00'], syncValues);
-  window.synchronizeFields(timeoutSelect, timeinSelect, ['12:00', '13:00', '14:00'], ['12:00', '13:00', '14:00'], syncValues);
+  window.synchronizeFields(timeinSelect, timeoutSelect, CHECK_TIMES, CHECK_TIMES, syncValues);
+  window.synchronizeFields(timeoutSelect, timeinSelect, CHECK_TIMES, CHECK_TIMES, syncValues);
 
   var syncValueMinByValue = function (field, value) {
     field.min = value;
