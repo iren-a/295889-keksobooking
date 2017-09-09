@@ -40,7 +40,7 @@
     pins[idx].classList.add('pin--active');
 
     dialog.classList.remove('hidden');
-    window.renderOfferDialog(window.offers[idx]);
+    window.showCard(pins[idx]);
   }
 
   function closeDialog() {
