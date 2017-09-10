@@ -58,6 +58,8 @@
   }
 
   function loadHandler(offersArr) {
+    window.data = offersArr;
+
     var tokyoPinMap = document.querySelector('.tokyo__pin-map');
     var fragment = document.createDocumentFragment();
 
