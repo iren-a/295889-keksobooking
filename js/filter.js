@@ -46,8 +46,7 @@
     var filteredData = data.filter(function (item) {
       return (typeFilter(item) && priceFilter(item) && roomsNumberFilter(item) && guestsNumberFilter(item) && featuresFilter(item));
     });
-    console.log(filteredData);
-
+    window.renderPinMap(filteredData);
   }
 
   function typeFilter(offerObj) {

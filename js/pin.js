@@ -57,10 +57,9 @@
     }
   }
 
-  function loadHandler(offersArr) {
-    window.data = offersArr;
-
+  window.renderPinMap = function (offersArr) {
     var tokyoPinMap = document.querySelector('.tokyo__pin-map');
+    var pins = document.querySelectorAll('.pin:not(.pin__main)');
     var fragment = document.createDocumentFragment();
 
     for (var i = 0; i < offersArr.length; i++) {
@@ -80,7 +79,16 @@
 
       fragment.appendChild(pin);
     }
+
+    for (var j = 0; j < pins.length; j++) {
+      tokyoPinMap.removeChild(pins[j]);
+    }
     tokyoPinMap.appendChild(fragment);
+  };
+
+  function loadHandler(data) {
+    window.data = data;
+    window.renderPinMap(data);
   }
 
   function errorHandler(errorMessage) {
