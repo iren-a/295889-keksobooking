@@ -65,21 +65,31 @@
     return true;
   }
 
+  function loadHandler() {
+    noticeForm.reset();
+  }
+
+  function errorHandler(errorMessage) {
+    window.utils.showErrorMessage(errorMessage);
+  }
+
   noticeForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
 
     var inputs = document.querySelectorAll('.notice__form input');
-    var stopSubmit = false;
+    var error = false;
 
     for (var j = 0; j < inputs.length; j++) {
       if (!checkValidityInput(inputs[j])) {
         inputs[j].style = 'border: 2px solid red;';
-        stopSubmit = true;
+        error = true;
       } else {
         inputs[j].style = '';
       }
     }
-    if (stopSubmit) {
-      evt.preventDefault();
+
+    if (!error) {
+      window.backend.save(new FormData(noticeForm), loadHandler, errorHandler);
     }
 
   });

@@ -8,18 +8,6 @@
     'bungalo': 'Бунгало'
   };
 
-  function getOfferByPin(pin) {
-    var img = pin.querySelector('img');
-    var srcImg = img.getAttribute('src');
-
-    for (var i = 0; i < window.offers.length; i++) {
-      if (window.offers[i].author.avatar === srcImg) {
-        var ret = window.offers[i];
-        break;
-      }
-    }
-    return ret;
-  }
 
   function replaceDialogPanel(newDialogPanel) {
     var offerDialog = document.querySelector('#offer-dialog');
@@ -28,7 +16,7 @@
     offerDialog.replaceChild(newDialogPanel, oldDialogPanel);
   }
 
-  window.renderOfferDialog = function (offerObj) {
+  window.showCard = function (offerObj) {
     var lodgeTemplate = document.querySelector('#lodge-template').content;
     var offerElement = lodgeTemplate.cloneNode(true);
 
@@ -50,9 +38,5 @@
     document.querySelector('.dialog__title img').src = offerObj.author.avatar;
   };
 
-  window.showCard = function (pin) {
-    var offer = getOfferByPin(pin);
-    window.renderOfferDialog(offer);
-  };
 
 })();

@@ -1,8 +1,6 @@
 'use strict';
 
 (function () {
-  window.renderOfferDialog(window.offers[0]);
-
 
   function setAddressbyPin(x, y) {
     var address = document.getElementById('address');
