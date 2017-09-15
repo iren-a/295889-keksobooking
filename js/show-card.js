@@ -26,11 +26,14 @@
     offerElement.querySelector('.lodge__type').textContent = HOUSING_TYPES_MAP[offerObj.offer.type];
     offerElement.querySelector('.lodge__rooms-and-guests').textContent = 'Для ' + offerObj.offer.guests + ' гостей в ' + offerObj.offer.rooms + ' комнатах';
     offerElement.querySelector('.lodge__checkin-time').textContent = 'Заезд после ' + offerObj.offer.checkin + ', выезд до ' + offerObj.offer.checkout;
-    var featuresHtml = '';
-    for (var j = 0; j < offerObj.offer.features.length; j++) {
-      featuresHtml += '<span class="feature__image  feature__image--' + offerObj.offer.features[j] + '"></span>';
-    }
-    offerElement.querySelector('.lodge__features').innerHTML = featuresHtml;
+
+    var features = offerObj.offer.features;
+    features.forEach(function (value) {
+      var span = document.createElement('span');
+      span.className = 'feature__image feature__image--' + value;
+      offerElement.querySelector('.lodge__features').appendChild(span);
+    });
+
     offerElement.querySelector('.lodge__description').textContent = offerObj.offer.description;
 
     replaceDialogPanel(offerElement);
