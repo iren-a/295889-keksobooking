@@ -15,9 +15,9 @@
 
     offerDialog.replaceChild(newDialogPanel, oldDialogPanel);
   }
+  var lodgeTemplate = document.querySelector('#lodge-template').content;
 
   window.showCard = function (offerObj) {
-    var lodgeTemplate = document.querySelector('#lodge-template').content;
     var offerElement = lodgeTemplate.cloneNode(true);
 
     offerElement.querySelector('.lodge__title').textContent = offerObj.offer.title;

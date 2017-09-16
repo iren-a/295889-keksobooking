@@ -2,8 +2,9 @@
 
 (function () {
 
+  var address = document.getElementById('address');
+
   function setAddressbyPin(x, y) {
-    var address = document.getElementById('address');
     address.value = 'x: ' + x + ', y: ' + y;
   }
 

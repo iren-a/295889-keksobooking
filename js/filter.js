@@ -23,8 +23,8 @@
   var housingPrice = document.querySelector('#housing_price');
   var housingRoomsNumber = document.querySelector('#housing_room-number');
   var housingGuestsNumber = document.querySelector('#housing_guests-number');
-  var housingFeatures = document.querySelector('#housing_features');
-
+  var housingFeaturesList = document.querySelector('#housing_features');
+  var featureInputs = housingFeaturesList.querySelectorAll('input');
   var housingTypeValue = ANY_VALUE;
   var housingPriceValue = ANY_VALUE;
   var housingRoomsNumberValue = ANY_VALUE;
@@ -32,14 +32,14 @@
   var housingFeaturesValue = getFeaturesArr();
 
   function getFeaturesArr() {
-    var featuresArr = [];
-    var el = housingFeatures.elements;
-    for (var i = 0; i < el.length; i++) {
-      if (el[i].checked && featuresArr.indexOf(el[i].value) === -1) {
-        featuresArr.push(el[i].value);
+    var features = [];
+
+    for (var i = 0; i < featureInputs.length; i++) {
+      if (featureInputs[i].checked && features.indexOf(featureInputs[i].value) === -1) {
+        features.push(featureInputs[i].value);
       }
     }
-    return featuresArr;
+    return features;
   }
 
   function filter(data) {
@@ -82,7 +82,6 @@
     return true;
   }
 
-
   housingType.addEventListener('change', function () {
     housingTypeValue = housingType.value;
     window.debounce(filter(window.data));
@@ -99,7 +98,7 @@
     housingGuestsNumberValue = housingGuestsNumber.value;
     window.debounce(filter(window.data));
   });
-  housingFeatures.addEventListener('change', function () {
+  housingFeaturesList.addEventListener('change', function () {
     housingFeaturesValue = getFeaturesArr();
     window.debounce(filter(window.data));
   });
