@@ -88,7 +88,7 @@
 
   function loadHandler(data) {
     window.data = data;
-    window.renderPinMap(data);
+    window.renderPinMap(data.slice(0, 3));
   }
 
   function errorHandler(errorMessage) {
