@@ -35,7 +35,7 @@
     var features = [];
 
     // для Edge по другому не работает
-    Array.prototype.forEach.call(featureInputs, function(item) {
+    Array.prototype.forEach.call(featureInputs, function (item) {
       if (item.checked && features.indexOf(item.value) === -1) {
         features.push(item.value);
       }
