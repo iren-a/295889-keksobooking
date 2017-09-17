@@ -34,11 +34,13 @@
   function getFeaturesArr() {
     var features = [];
 
-    for (var i = 0; i < featureInputs.length; i++) {
-      if (featureInputs[i].checked && features.indexOf(featureInputs[i].value) === -1) {
-        features.push(featureInputs[i].value);
+    // для Edge по другому не работает
+    Array.prototype.forEach.call(featureInputs, function(item) {
+      if (item.checked && features.indexOf(item.value) === -1) {
+        features.push(item.value);
       }
-    }
+    });
+
     return features;
   }
 
